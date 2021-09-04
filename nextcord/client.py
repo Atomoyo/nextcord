@@ -213,11 +213,11 @@ class Client:
         self.shard_id: Optional[int] = options.get('shard_id')
         self.shard_count: Optional[int] = options.get('shard_count')
 
-        connector: Optional[aiohttp.BaseConnector] = options.pop('connector', None)
-        proxy: Optional[str] = options.pop('proxy', None)
-        proxy_auth: Optional[aiohttp.BasicAuth] = options.pop('proxy_auth', None)
-        unsync_clock: bool = options.pop('assume_unsync_clock', True)
-        self.http: HTTPClient = HTTPClient(connector, proxy=proxy, proxy_auth=proxy_auth, unsync_clock=unsync_clock, loop=self.loop)
+        connector = options.pop('connector', None)
+        proxy = options.pop('proxy', None)
+        proxy_auth = options.pop('proxy_auth', None)
+        unsync_clock = options.pop('assume_unsync_clock', True)
+        self.http = HTTPClient(connector, proxy=proxy, proxy_auth=proxy_auth, unsync_clock=unsync_clock, loop=self.loop)
 
         self._handlers: Dict[str, Callable] = {
             'ready': self._handle_ready
@@ -611,7 +611,7 @@ class Client:
         await self.login(*args, bot=bot)
         await self.connect(reconnect=reconnect)
 
-    def run(self, *args: Any, **kwargs: Any) -> None:
+    def run(self, *args, **kwargs):
         """A blocking call that abstracts away the event loop
         initialisation from you.
 
@@ -658,10 +658,10 @@ class Client:
         try:
             loop.run_forever()
         except KeyboardInterrupt:
-            _log.info('Received signal to terminate bot and event loop.')
+            log.info('Received signal to terminate bot and event loop.')
         finally:
             future.remove_done_callback(stop_loop_on_completion)
-            _log.info('Cleaning up tasks.')
+            log.info('Cleaning up tasks.')
             _cleanup_loop(loop)
 
         if not future.cancelled():
