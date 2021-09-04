@@ -659,10 +659,10 @@ class Client:
         try:
             loop.run_forever()
         except KeyboardInterrupt:
-            log.info('Received signal to terminate bot and event loop.')
+            _log.info('Received signal to terminate bot and event loop.')
         finally:
             future.remove_done_callback(stop_loop_on_completion)
-            log.info('Cleaning up tasks.')
+            _log.info('Cleaning up tasks.')
             _cleanup_loop(loop)
 
         if not future.cancelled():
