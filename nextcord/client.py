@@ -469,13 +469,9 @@ class Client:
         """
 
         _log.info('logging in using static token')
-        
-        if not isinstance(token, str):
-            raise TypeError(f"The token provided was of type {type(token)} but was expected to be str")
 
         data = await self.http.static_login(token.strip())
         await self.http.static_login(token.strip(), bot=bot)
-        self._connection.is_bot = bot
 
     async def connect(self, *, reconnect: bool = True) -> None:
         """|coro|
