@@ -446,7 +446,7 @@ class Client:
 
     # login state management
 
-    async def login(self, token: str) -> None:
+    async def login(self, token, *, bot=True) -> None:
         """|coro|
 
         Logs in the client with the specified credentials.
@@ -474,7 +474,8 @@ class Client:
             raise TypeError(f"The token provided was of type {type(token)} but was expected to be str")
 
         data = await self.http.static_login(token.strip())
-        self._connection.user = ClientUser(state=self._connection, data=data)
+        await self.http.static_login(token.strip(), bot=bot)
+        self._connection.is_bot = bot
 
     async def connect(self, *, reconnect: bool = True) -> None:
         """|coro|
